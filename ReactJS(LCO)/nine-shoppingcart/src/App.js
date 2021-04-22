@@ -2,7 +2,12 @@ import React, { useState } from 'react';
 import "bootstrap/dist/css/bootstrap.min.css";
 import "react-toastify/dist/ReactToastify.css";
 import './App.css';
-import { toast } from 'react-toastify';
+
+import { toast, ToastContainer } from 'react-toastify';
+import { Container, Row, Col } from "reactstrap";
+
+import Buypage from "./Components/BuyPage";
+import Cart from "./Components/Cart";
 
 function App() {
 
@@ -18,8 +23,10 @@ function App() {
         type: 'error'
       });
     };
+    if (isAlreadyAdded === -1) {
+      setCartItem([...cartItem, item]);
+    };
 
-    setCartItem([...cartItem, item]);
   };
 
   const buyNow = () => {
@@ -35,22 +42,17 @@ function App() {
   }
 
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Container fluid>
+      <ToastContainer />
+      <Row>
+        <Col md="8">
+          <Buypage addInCart={addInCart} />
+        </Col>
+        <Col md="4">
+          <Cart cartItem={cartItem} removeItem={removeItem} buyNow={buyNow} />
+        </Col>
+      </Row>
+    </Container>
   );
 }
 
